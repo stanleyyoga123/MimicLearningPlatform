@@ -1,0 +1,1 @@
+"""Apprenticeship module generation application."""

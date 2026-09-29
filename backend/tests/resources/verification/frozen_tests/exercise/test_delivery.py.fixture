@@ -1,0 +1,8 @@
+from app.main import record_delivery
+
+
+def test_repeated_delivery_is_ignored() -> None:
+    seen: set[str] = set()
+    assert record_delivery("delivery-1", seen) is True
+    assert record_delivery("delivery-1", seen) is False
+    assert seen == {"delivery-1"}

@@ -1,0 +1,8 @@
+*
+!scaffold/
+!scaffold/requirements.txt
+!verification/
+!verification/Dockerfile
+!verification/harness.py
+!verification/trusted_report.py
+!verification/pytest_report.py
