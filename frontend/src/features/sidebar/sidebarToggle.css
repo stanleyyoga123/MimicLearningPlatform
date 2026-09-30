@@ -1,0 +1,7 @@
+.sidebar[hidden] { display: none !important; }
+.sidebar-toggle { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 36px; height: 36px; padding: 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); cursor: pointer; }
+.sidebar-toggle:hover { border-color: var(--orange); color: var(--orange-text); }
+.sidebar-toggle:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.topbar:has(.sidebar-toggle) { justify-content: flex-start; gap: 16px; }
+.topbar:has(.sidebar-toggle) .breadcrumbs { flex: 1; }
+@media (max-width: 760px) { .topbar:has(.sidebar-toggle) { gap: 10px; } .sidebar-toggle { width: 32px; height: 32px; } }

@@ -16,8 +16,8 @@ export type ProfileActivity = {
 };
 
 export const demoProfile = {
-  name: 'Jordan Lee',
-  initials: 'JL',
+  name: 'Stanley Yoga',
+  initials: 'SY',
   track: 'Backend engineering',
   level: 'Developing practitioner',
   metrics: [

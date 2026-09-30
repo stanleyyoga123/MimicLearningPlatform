@@ -4,6 +4,7 @@ import type { AvailableModule } from '../../modules/hooks/useAvailableModules';
 import type { useWorkspaceSession } from '../hooks/useWorkspaceSession';
 import { SubmissionPanel } from '../../submissions/components/SubmissionPanel';
 import type { useSubmissions } from '../../submissions/hooks/useSubmissions';
+import { ChatMarkdown } from './ChatMarkdown';
 
 type TaskWorkspaceProps = {
   module: AvailableModule;
@@ -47,8 +48,8 @@ export function TaskWorkspace({ module, workspace, submissions }: TaskWorkspaceP
           {activeAgent && <><div className="workspace-chat-heading"><span className="workspace-agent-avatar">{activeAgent.name.slice(0, 1)}</span><div><strong>{activeAgent.name}</strong><small>{activeAgent.description}</small></div></div>
             <div className="workspace-messages" ref={messagesRef} role="log" aria-label={`Conversation with ${activeAgent.name}`}>
               {messages.length === 0 && !pending && <div className="workspace-welcome"><MessageCircle size={24} /><h2>Ask {activeAgent.name}</h2><p>{activeAgent.description}</p><small>Share a question, code snippet, or error message. The team knows the generated starter, but cannot see changes on your computer.</small></div>}
-              {messages.map((message, index) => <div className={`workspace-message ${message.role}`} key={`${index}-${message.role}`}><span>{message.role === 'learner' ? 'YOU' : activeAgent.name.toUpperCase()}</span><p>{message.content}</p></div>)}
-              {pending && <><div className="workspace-message learner"><span>YOU</span><p>{pending.question}</p></div>{pending.reply && <div className="workspace-message assistant"><span>{activeAgent.name.toUpperCase()}</span><p>{pending.reply}</p></div>}</>}
+              {messages.map((message, index) => <div className={`workspace-message ${message.role}`} key={`${index}-${message.role}`}><span>{message.role === 'learner' ? 'YOU' : activeAgent.name.toUpperCase()}</span><ChatMarkdown content={message.content} /></div>)}
+              {pending && <><div className="workspace-message learner"><span>YOU</span><ChatMarkdown content={pending.question} /></div>{pending.reply && <div className="workspace-message assistant"><span>{activeAgent.name.toUpperCase()}</span><ChatMarkdown content={pending.reply} /></div>}</>}
               {workspace.busyAgentId === activeAgent.id && <div className="workspace-typing" role="status"><LoaderCircle size={15} className="spin" /> {pending?.reply ? `${activeAgent.name} is responding…` : `${activeAgent.name} is thinking…`}</div>}
             </div>
             <form className="workspace-composer" onSubmit={handleSend}><label htmlFor="workspace-message">Message {activeAgent.name}</label>{workspace.error && <p className="workspace-chat-error" role="alert">{workspace.error} Your message is still here; you can try again.</p>}<div className="workspace-compose-row"><textarea id="workspace-message" rows={3} maxLength={4000} value={draft} onChange={(event) => workspace.setDraft(activeAgent.id, event.target.value)} placeholder="Ask a question or paste code or an error…" disabled={workspace.busyAgentId !== null} /><button className="primary-button" type="submit" disabled={workspace.busyAgentId !== null || !draft.trim()}><Send size={16} /> Send message</button></div><small>Conversation is temporary · {draft.length}/4000 characters</small></form>

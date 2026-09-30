@@ -1,0 +1,95 @@
+.workspace-message .workspace-markdown {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 13px 16px;
+  border-radius: 10px;
+  background: var(--orange-soft);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.workspace-message.learner .workspace-markdown {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+.workspace-message .workspace-markdown p {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  white-space: pre-wrap;
+}
+
+.workspace-message.learner .workspace-markdown p {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.workspace-message .workspace-markdown > :not(:first-child) {
+  margin-top: 9px;
+}
+
+.workspace-message .workspace-markdown ul,
+.workspace-message .workspace-markdown ol {
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+
+.workspace-message .workspace-markdown li + li {
+  margin-top: 3px;
+}
+
+.workspace-message .workspace-markdown pre {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: 0;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: rgb(23 23 23 / 8%);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.workspace-message.learner .workspace-markdown pre {
+  background: rgb(255 255 255 / 12%);
+}
+
+.workspace-message .workspace-markdown code {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: .92em;
+}
+
+.workspace-message .workspace-markdown :not(pre) > code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: rgb(23 23 23 / 8%);
+}
+
+.workspace-message.learner .workspace-markdown :not(pre) > code {
+  background: rgb(255 255 255 / 16%);
+}
+
+.workspace-message .workspace-markdown a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.workspace-message .workspace-markdown h1,
+.workspace-message .workspace-markdown h2,
+.workspace-message .workspace-markdown h3,
+.workspace-message .workspace-markdown h4,
+.workspace-message .workspace-markdown h5,
+.workspace-message .workspace-markdown h6 {
+  margin-bottom: 0;
+  font-family: inherit;
+  font-size: 1em;
+  font-weight: 700;
+  line-height: inherit;
+}

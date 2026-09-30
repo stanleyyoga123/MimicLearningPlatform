@@ -1,11 +1,9 @@
 import { ArrowRight, ArrowUpRight, Check, ClipboardList, Code2, Github, Users } from 'lucide-react';
 import type { AvailableModule } from '../hooks/useAvailableModules';
-import { SubmissionPanel } from '../../submissions/components/SubmissionPanel';
-import type { useSubmissions } from '../../submissions/hooks/useSubmissions';
 
-type JuniorModuleDetailProps = { module: AvailableModule; onStart: () => void; submissions: ReturnType<typeof useSubmissions> };
+type JuniorModuleDetailProps = { module: AvailableModule; onStart: () => void };
 
-export function JuniorModuleDetail({ module, onStart, submissions }: JuniorModuleDetailProps) {
+export function JuniorModuleDetail({ module, onStart }: JuniorModuleDetailProps) {
   const { spec } = module;
 
   return <article className="detail-view result-view junior-detail">
@@ -39,7 +37,6 @@ export function JuniorModuleDetail({ module, onStart, submissions }: JuniorModul
         </section>
       </div>
     </div>
-    <SubmissionPanel key={module.id} submissions={submissions} />
     {spec.simplifications.length > 0 && <div className="simplifications"><strong>Adapted for the workshop</strong><p>{spec.simplifications.join(' ')}</p></div>}
   </article>;
 }

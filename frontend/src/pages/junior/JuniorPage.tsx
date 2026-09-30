@@ -1,5 +1,8 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, CircleHelp, FolderKanban, RefreshCw, UserRound } from 'lucide-react';
+import { SidebarToggle } from '../../features/sidebar/SidebarToggle';
+import { useSidebarVisibility } from '../../features/sidebar/useSidebarVisibility';
+import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, CircleHelp, FolderKanban, RefreshCw, UserRound, UsersRound } from 'lucide-react';
 import { useEffect } from 'react';
+import { demoProfile } from '../../features/learner_profile/demoProfile';
 import { JuniorModuleDetail } from '../../features/modules/components/JuniorModuleDetail';
 import { useAvailableModules } from '../../features/modules/hooks/useAvailableModules';
 import type { ModuleApi } from '../../features/modules/services/ModuleApi';
@@ -12,6 +15,7 @@ import type { SubmissionApi } from '../../features/submissions/services/Submissi
 type JuniorPageProps = { api: ModuleApi; sessionApi: SessionApi; submissionApi: SubmissionApi };
 
 export function JuniorPage({ api, sessionApi, submissionApi }: JuniorPageProps) {
+  const sidebar = useSidebarVisibility();
   const modules = useAvailableModules(api);
   const workspace = useWorkspaceSession(sessionApi);
   const submissions = useSubmissions(submissionApi, modules.selected?.id ?? null);
@@ -33,13 +37,13 @@ export function JuniorPage({ api, sessionApi, submissionApi }: JuniorPageProps) 
   };
 
   return <div className="app-shell junior-page">
-    <aside className="sidebar">
+    <aside className="sidebar" id="mimic-sidebar" hidden={!sidebar.expanded}>
       <a className="brand brand-link" href="/junior" aria-label="Mimic junior home"><span className="brand-symbol">m<span>.</span></span><span className="brand-name">Mimic<small>PRODUCTION PRACTICE</small></span></a>
       <div className="sidebar-main"><button className={`nav-item ${showingCatalog ? 'selected' : ''}`} onClick={handleCatalog}><span className="nav-icon"><BookOpen size={18} /></span> Available tasks <ArrowRight size={15} className="nav-arrow" /></button><a className="nav-item" href="/junior/profile"><span className="nav-icon"><UserRound size={18} /></span> My profile</a><div className="nav-section-title"><span>LEARNER SPACE</span><span>{modules.items.length.toString().padStart(2, '0')}</span></div><p className="junior-sidebar-copy">Pick a task, explore the starter code, and work through its acceptance criteria.</p></div>
-      <div className="sidebar-bottom"><a className="role-switch" href="/senior"><FolderKanban size={17} /><span>View senior page</span><ArrowRight size={14} /></a><div className="sidebar-help"><CircleHelp size={18} /><span><strong>Built for learning by doing.</strong><small>Production scenarios. Practical skills.</small></span></div><span className="sidebar-version">MIMIC <span>·</span> MVP 01</span></div>
+      <div className="sidebar-bottom"><a className="role-switch" href="/mentor"><UsersRound size={17} /><span>View mentor dashboard</span><ArrowRight size={14} /></a><a className="role-switch" href="/senior"><FolderKanban size={17} /><span>View senior page</span><ArrowRight size={14} /></a><div className="sidebar-help"><CircleHelp size={18} /><span><strong>Built for learning by doing.</strong><small>Production scenarios. Practical skills.</small></span></div><span className="sidebar-version">MIMIC <span>·</span> MVP 01</span></div>
     </aside>
     <main className="main-area">
-      <header className="topbar"><div className="breadcrumbs"><span>LEARNER SPACE</span><span className="crumb-separator">/</span><strong>{showingCatalog ? 'AVAILABLE TASKS' : workspace.moduleId ? 'WORKSPACE' : modules.selected?.spec.title || 'ASSIGNMENT'}</strong></div><div className="topbar-right"><span className="local-indicator"><i /> LOCAL STUDIO</span><a className="top-avatar" href="/junior/profile" aria-label="View your learning profile">J</a></div></header>
+      <header className="topbar"><SidebarToggle expanded={sidebar.expanded} onToggle={sidebar.toggle} /><div className="breadcrumbs"><span>LEARNER SPACE</span><span className="crumb-separator">/</span><strong>{showingCatalog ? 'AVAILABLE TASKS' : workspace.moduleId ? 'WORKSPACE' : modules.selected?.spec.title || 'ASSIGNMENT'}</strong></div><div className="topbar-right"><span className="local-indicator"><i /> LOCAL STUDIO</span><a className="top-avatar" href="/junior/profile" aria-label={`View ${demoProfile.name}'s learning profile`}>{demoProfile.initials.charAt(0)}</a></div></header>
       <div className="content-area">
         {showingCatalog ? <section className="junior-catalog">
           <div className="hero-label"><span className="small-line" /> THE LEARNER SPACE</div>
@@ -53,7 +57,7 @@ export function JuniorPage({ api, sessionApi, submissionApi }: JuniorPageProps) 
           ? <TaskWorkspace module={modules.selected} workspace={workspace} submissions={submissions} />
           : <><button className="back-link" onClick={handleCatalog}><ArrowLeft size={16} /> Back to available tasks</button>
             {modules.loading && modules.items.length === 0 ? <p className="junior-state" role="status">Loading assignment…</p>
-              : modules.selected ? <JuniorModuleDetail module={modules.selected} onStart={handleStart} submissions={submissions} />
+              : modules.selected ? <JuniorModuleDetail module={modules.selected} onStart={handleStart} />
                 : !modules.error && <div className="junior-state junior-empty"><BookOpen size={28} /><h1>This module is not available yet.</h1><p>Choose a published assignment from the task board.</p><button className="primary-button" onClick={handleCatalog}>Browse available tasks</button></div>}
             {modules.error && <div className="junior-state junior-error" role="alert"><p>{modules.error}</p><button className="primary-button" onClick={() => void modules.refresh()}>Try again</button></div>}
           </>}

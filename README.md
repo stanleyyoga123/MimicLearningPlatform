@@ -6,6 +6,20 @@ assignment. The learner receives an unsolved FastAPI/SQLite project
 in a private GitHub repository. The author retains the reference solution,
 verification evidence, and two fictional peers' bounded knowledge packs locally.
 
+## See Mimic in action
+
+Real industry scenarios. Real professional tools.
+
+| Generate a module | Choose an assignment |
+| --- | --- |
+| ![Module creation form with options to paste a brief or upload a document](artifacts/mimic-screenshots/01-module-generation.png) | ![Available assignments showing a payout recipient feature and a webhook idempotency bugfix](artifacts/mimic-screenshots/03-available-assignments.png) |
+| Turn a technical spec or RCA into a focused task and a runnable GitHub starter. | Pick a feature or bugfix, clone the repository, and work in your own IDE. |
+
+| Learn with the project team | Improve through GitHub review |
+| --- | --- |
+| ![AI mentor conversation offering a focused hint about duplicate webhook handling](artifacts/mimic-screenshots/05-1-learning-with-mentor.png) | ![GitHub pull request showing requested changes, a follow-up commit, and AI approval](artifacts/mimic-screenshots/github/pr.png) |
+| Ask AI coworkers for project context and get hints from a mentor. | Open a pull request, receive actionable feedback, and push your revisions. |
+
 ## Run locally
 
 Prerequisites: Python 3.12+, Node.js 22.12+, Git, authenticated Codex CLI, Docker
@@ -60,7 +74,7 @@ If those ports are occupied, set `API_PORT=8017` and
 `API_PROXY_TARGET=http://127.0.0.1:8017 npm --prefix frontend run dev -- --port 5187`.
 Open http://127.0.0.1:5187 in that case.
 
-## Senior and junior pages
+## Senior, junior, and mentor pages
 
 - `/senior` is the author workspace: submit documents, follow generation, retry
   failures, and inspect results.
@@ -71,6 +85,9 @@ Open http://127.0.0.1:5187 in that case.
   **My profile** or the junior avatar. It shows a fictional learner's strengths,
   growth areas, assignment recommendations, and progress using labeled sample
   data. It does not fetch learner metrics or change real submission records.
+- `/mentor` is a static mentor dashboard preview: a sample junior roster,
+  learning levels, weakest topics, suggested practice, and mentoring priorities.
+  Its labeled demo data does not assign tasks or evaluate real learners.
 
 The home URL opens the senior workspace. Links between the pages switch the
 view without signing in. These pages are a UI separation, not access control.
@@ -90,6 +107,9 @@ Replies appear progressively as the model generates them. The browser streams
 from the local API; only the backend connects to OpenRouter. Closing the workspace
 also cancels the open reply stream. If a reply is interrupted, the workspace
 reports the error and keeps your draft so you can retry explicitly.
+
+Chat messages render Markdown, including bold text, inline code, fenced code
+blocks, lists, and links. Formatting updates as replies stream in.
 
 Configure the API's local `.env` before using chat:
 
@@ -212,6 +232,13 @@ peer packs, and chat histories are excluded. The MVP has shared module/PR histor
 and no learner accounts.
 
 ## Try the demo
+
+Two fictional source documents are available:
+
+- [Duplicate webhook RCA](examples/duplicate_webhook_rca.md): fix duplicate orders
+  with idempotency.
+- [Payout recipient feature spec](examples/payout_recipients_feature_spec.md):
+  build a small CRUD API for a business payments recipient address book.
 
 Upload [the fictional webhook RCA](examples/duplicate_webhook_rca.md), or use the
 sample in the submission form. Submit once and follow the saved generation
